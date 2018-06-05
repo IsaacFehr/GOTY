@@ -14,6 +14,7 @@ from player import Player
 INITIAL_SCREEN_DIMENSIONS = (800, 500)
 FPS = 30
 BACKGROUND_COLOR = pygame.Color('blue')
+WINDOW_NAME = "G.O.T.Y."
 
 class Game():
 
@@ -32,7 +33,10 @@ class Game():
 		frame_delay = int(1000 / self.fps)
 		#pygame.key.set_repeat( frame_delay, frame_delay) #Held keys will fire an event every frame
 		self.screen = pygame.display.set_mode(self.screen_size)
-		pygame.display.set_caption('GOTY')
+		self.window_name = WINDOW_NAME
+		pygame.display.set_caption(self.window_name)
+
+		self.web_browser = webbrowser.get('chromium-browser')
 
 		self.background_color = BACKGROUND_COLOR
 
@@ -51,8 +55,6 @@ class Game():
 		self.players = pygame.sprite.Group()
 		self.players.add(self.player)
 		self.all_sprites.add(self.player)
-
-		self.popup()
 
 		while True: 
 			self.update()
@@ -78,6 +80,7 @@ class Game():
 			self.loop()
 		self.level_maker.render_level(self.level)
 		self.player.spawn()
+		self.popup()
 
 	def loop(self, loopNumber = None):
 		if loopNumber: self.loopNumber = loopNumber
@@ -88,8 +91,8 @@ class Game():
 		self.player.control_type = loop_info['control_type']
 
 	def popup(self):
-		webbrowser.open("http://google.com", new=1, autoraise=False)
-		
+                
+		self.web_browser.open("http://google.com", new=1, autoraise=False)
+		os.system("wmctrl -a " + self.window_name)
 
 game = Game()
-
