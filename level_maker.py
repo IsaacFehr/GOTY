@@ -87,15 +87,19 @@ class LevelMaker(pygame.sprite.Group):
 		if sprite_info.get('kill'):
 			self.game.killers.add(sprite)
 
+		surface.set_colorkey(self.colorkey)
+		surface.fill(self.colorkey)
+
 		sprite_type = sprite_info['type']
 		if sprite_type == 'rect':
 			surface.fill(fills[0])
 		elif sprite_type == 'goal':
-			surface.set_colorkey(self.colorkey)
-			surface.fill(self.colorkey)
 			pygame.draw.rect(surface, fills[0], (0, 0, 10, size[1]))
 			pygame.draw.polygon(surface, fills[1], ((10,0),(size[0], 20),(10,40)) )
 			self.game.goals.add(sprite)
+		elif sprite_type == 'spike':
+			pygame.draw.polygon(surface, fills[0], ((0,size[1]),(size[0]/2,0),(size[0],size[1])) )
+			self.game.killers.add(sprite)
 
 
 
