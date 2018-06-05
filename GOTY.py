@@ -36,7 +36,11 @@ class Game():
 		self.window_name = WINDOW_NAME
 		pygame.display.set_caption(self.window_name)
 
-		self.web_browser = webbrowser.get('chromium-browser')
+		try:
+			self.web_browser = webbrowser.get('chromium-browser')
+		except:
+			try: self.web_browser = webbrowser.get()
+			except: print("Could not get web browser")
 
 		self.background_color = BACKGROUND_COLOR
 
@@ -80,7 +84,7 @@ class Game():
 			self.loop()
 		self.level_maker.render_level(self.level)
 		self.player.spawn()
-		self.popup()
+		#self.popup()
 
 	def loop(self, loopNumber = None):
 		if loopNumber: self.loopNumber = loopNumber

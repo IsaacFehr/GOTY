@@ -70,9 +70,9 @@ class Player(pygame.sprite.Sprite):
 				self.run(move_direction)
 				if pressed_keys[K_SPACE]: self.jump()
 			elif self.control_type == 'advanced':
-				move_direction[0] = self.check_held_keys("dex", pressed_keys) - self.check_held_keys("sin", pressed_keys)
+				move_direction[0] = self.check_held_keys("dex", pressed_keys) - self.check_held_keys("ster", pressed_keys)
 				self.run(move_direction)
-				if self.check_held_keys("jump", pressed_keys): self.jump()
+				if self.check_held_keys("hop", pressed_keys): self.jump()
 
 	def check_held_keys(self, check_keys, pressed_keys):
 		for index, key in enumerate(check_keys):
