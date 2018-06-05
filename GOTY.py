@@ -88,12 +88,8 @@ class Game():
 		self.player.control_type = loop_info['control_type']
 
 	def popup(self):
-		webbrowser.open_new("http://google.com")
-		time.sleep(3)
-		self.screen = pygame.display.set_mode(self.screen_size, flags=pygame.FULLSCREEN)
-
-
-
+		webbrowser.open("http://google.com", new=1, autoraise=False)
+		
 
 game = Game()
 
