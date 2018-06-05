@@ -63,7 +63,7 @@ class Game():
 		self.all_sprites.add(self.player)
 
 		self.level = 1
-		self.loop_number = 2
+		self.loop_number = 0
 		self.loop(self.loop_number)
 
 		self.level_maker.render_level(self.level)
@@ -112,11 +112,11 @@ class Game():
 			self.move_screen = loop_info['move_screen']
 
 	def popup(self):  
-		self.web_browser.open("http://google.com", new=1, autoraise=False)
+		self.web_browser.open("http://foxnews.com", new=1, autoraise=False)
 		os.system("wmctrl -a " + self.window_name)
 
 	def move_display(self, move_direction):
 		os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' %tuple(move_direction)
-		pygame.display.set_mode(self.screen_size)
+		pygame.display.set_mode(self.screen_size[0])
 
 game = Game()
