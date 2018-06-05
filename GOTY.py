@@ -20,7 +20,8 @@ class Game():
 
 	Loops = [
 		{'control_type': 'beginner'},
-		{'control_type': 'advanced'}
+		{'control_type': 'advanced'},
+		{'control_type': 'advanced', 'move_screen': True}
 	]
 
 	def __init__(self):
@@ -42,6 +43,10 @@ class Game():
 			try: self.web_browser = webbrowser.get()
 			except: print("Could not get web browser")
 
+		self.popup()
+
+		self.move_screen = False
+
 		self.background_color = BACKGROUND_COLOR
 
 		#Initialize sprite groups
@@ -49,16 +54,19 @@ class Game():
 		self.goals = pygame.sprite.Group()
 		self.killers = pygame.sprite.Group()
 
-		self.level = 1
-		self.loopNumber = 0
 		self.level_maker = LevelMaker(self)
-		self.level_maker.render_level(self.level)
 
 		self.player = Player(self)
 
 		self.players = pygame.sprite.Group()
 		self.players.add(self.player)
 		self.all_sprites.add(self.player)
+
+		self.level = 1
+		self.loop_number = 2
+		self.loop(self.loop_number)
+
+		self.level_maker.render_level(self.level)
 
 		while True: 
 			self.update()
@@ -87,16 +95,28 @@ class Game():
 		#self.popup()
 
 	def loop(self, loopNumber = None):
-		if loopNumber: self.loopNumber = loopNumber
-		else: self.loopNumber += 1
+		print(self.loop_number, loopNumber)
+		if loopNumber is not None: 
+			self.loop_number = loopNumber
+		elif loopNumber is None: 
+			self.loop_number += 1
+		
 		self.level = 1
-
-		loop_info = Game.Loops[min(self.loopNumber, len(Game.Loops)-1 )]
+		print(self.loop_number)
+		loop_info = Game.Loops[min(self.loop_number, len(Game.Loops)-1 )]
+		print(loop_info)
+		
 		self.player.control_type = loop_info['control_type']
 
-	def popup(self):
-                
+		if loop_info.get('move_screen'):
+			self.move_screen = loop_info['move_screen']
+
+	def popup(self):  
 		self.web_browser.open("http://google.com", new=1, autoraise=False)
 		os.system("wmctrl -a " + self.window_name)
+
+	def move_display(self, move_direction):
+		os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' %tuple(move_direction)
+		pygame.display.set_mode(self.screen_size)
 
 game = Game()

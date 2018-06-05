@@ -94,7 +94,9 @@ class Player(pygame.sprite.Sprite):
 	def run(self, move_direction ):
 		if self.is_grounded:
 			delta_velocity = numpy.multiply( move_direction, self.run_acceleration)
-			self.add_velocity( delta_velocity ) 
+			self.add_velocity( delta_velocity )
+			if self.game.move_screen:
+				self.game.move_display(move_direction)
 
 	def jump(self):
 		if self.is_grounded:
