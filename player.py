@@ -71,7 +71,8 @@ class Player(pygame.sprite.Sprite):
 				if pressed_keys[K_SPACE]: self.jump()
 			elif self.control_type == 'advanced':
 				move_direction[0] = self.check_held_keys("dex", pressed_keys) - self.check_held_keys("ster", pressed_keys)
-				self.run(move_direction)
+				if move_direction != [0,0]:
+					self.run(move_direction)
 				if self.check_held_keys("hop", pressed_keys): self.jump()
 
 	def check_held_keys(self, check_keys, pressed_keys):
@@ -82,6 +83,7 @@ class Player(pygame.sprite.Sprite):
 					print("pressed keys: ", [pygame.key.name(i) for i,k in enumerate(pressed_keys) if k] )
 				return False
 		print(check_keys," is pressed")
+		self.game.keys_down = check_keys 
 		return True
 
 	def init_key_dict(self):
@@ -96,7 +98,8 @@ class Player(pygame.sprite.Sprite):
 			delta_velocity = numpy.multiply( move_direction, self.run_acceleration)
 			self.add_velocity( delta_velocity )
 			if self.game.move_screen:
-				self.game.move_display(move_direction)
+				print("running and moving screen")
+				self.game.display_move_delta=move_direction
 
 	def jump(self):
 		if self.is_grounded:

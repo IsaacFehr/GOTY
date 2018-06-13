@@ -12,15 +12,22 @@ Borders = [
 class LevelMaker(pygame.sprite.Group):
 
 	COLORKEY = pygame.Color('aliceblue')
+	TEXT_Y = 100
 
 	def __init__(self, game):
 		super().__init__()
 		self.colorkey = LevelMaker.COLORKEY
 		self.game = game
 
+		self.text_y = LevelMaker.TEXT_Y
+		self.font = pygame.font.Font(None, 100)
+		self.level_number_text = pygame.sprite.Sprite(self.game.all_sprites)
+
 	def render_level(self, level_number):
 		self.clear_level()
 		level = Levels[level_number]
+
+		self.update_text("LEVEL " + str(level_number))
 
 		level_sprites = level['sprites']
 		level_sprites.extend(Borders)
@@ -33,6 +40,11 @@ class LevelMaker(pygame.sprite.Group):
 			sprite.rect.topleft = position
 			self.draw_shape(sprite, sprite_info)
 			self.game.all_sprites.add(sprite)
+
+	def update_text(self, text):
+		self.level_number_text.image = self.font.render(text, True, pygame.color.Color('white'))
+		self.level_number_text.rect = self.level_number_text.image.get_rect()
+		self.level_number_text.rect.center = (self.game.screen_size[0]/2, self.text_y)
 
 	def clear_level(self):
 		for sprite in iter(self):
